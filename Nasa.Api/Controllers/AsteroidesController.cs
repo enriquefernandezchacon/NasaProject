@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Nasa.Api.Mapper;
 using Nasa.Api.Services;
-using Nasa.Data.Models;
-using System.Collections.Generic;
 
 namespace Nasa.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AsteroidesController : ControllerBase
     {
         private readonly ILogger<AsteroidesController> _logger;
