@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-var clienteHttp = HttpClientFactory.Create();
+/*var clienteHttp = HttpClientFactory.Create();
 var respuesta = await clienteHttp.GetAsync("https://api.nasa.gov/neo/rest/v1/feed?start_date=2021-12-09&end_date=2021-12-12&api_key=zdUP8ElJv1cehFM0rsZVSQN7uBVxlDnu4diHlLSb");
 JObject json = new JObject();
     if(respuesta.IsSuccessStatusCode)
@@ -31,6 +31,13 @@ JObject json = new JObject();
         var diametro = (planeta.EstimatedDiameter.Kilometers.EstimatedDiameterMin + planeta.EstimatedDiameter.Kilometers.EstimatedDiameterMax) / 2;
         Console.WriteLine(contador++ + ".- Nombre: " + planeta.Name + ", Diametro(KM): " + diametro);
     }
-}
+}*/
+int dias = 15;
+DateTime hoy = DateTime.Now;
+DateTime fechaFutura = hoy.AddDays(dias);
 
+string fecha1 = hoy.ToString("yyyy-MM-dd");
+string fecha2 = fechaFutura.ToString("yyyy-MM-dd");
 
+Console.WriteLine(fecha1);
+Console.WriteLine(fecha2);
