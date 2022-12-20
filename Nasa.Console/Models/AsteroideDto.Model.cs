@@ -2,7 +2,10 @@
 {
     public class AsteroideDto
     {
-        public int Id { get; set; }
         public string Nombre { get; set; }
+        public Double Diametro { get; set; }
+        public Double Velocidad { get; set; }
+        public DateTimeOffset FechaAproximacion { get; set; }
+        public string Planeta { get; set; }
     }
 }
