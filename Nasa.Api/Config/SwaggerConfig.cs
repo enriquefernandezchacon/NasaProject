@@ -17,6 +17,7 @@
                     Version = "v1",
                 });
                 c.IncludeXmlComments(xmlPath);
+                c.IncludeXmlComments(xmlPath2);
             });
 
             return services;
