@@ -14,6 +14,8 @@ SwaggerConfig.AddRegistration(builder.Services);
 builder.Services.AddScoped<IAsteroidesService, AsteroidesServiceNasa>();
 builder.Services.AddScoped<IAsteroidesMapper, AsteroidesMapper>();
 
+IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").AddUserSecrets<Program>().Build();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

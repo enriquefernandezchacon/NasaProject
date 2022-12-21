@@ -7,18 +7,20 @@ using System.Net;
 
 namespace Nasa.Api.Controllers.v1
 {
+    /*
+     * BUGFIX Arreglar unidades en velocidad y diametro, no coge la coma de los decimales
+     * TODO Implementar appsettings para guardar la APIKEY
+     */
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
     public class AsteroidesController : ControllerBase
     {
-        private readonly ILogger<AsteroidesController> _logger;
         private readonly IAsteroidesService _asteroidesService;
         private readonly IAsteroidesMapper _asteroidesMapper;
 
-        public AsteroidesController(ILogger<AsteroidesController> logger, IAsteroidesService asteroidesService, IAsteroidesMapper asteroidesMapper)
+        public AsteroidesController(IAsteroidesService asteroidesService, IAsteroidesMapper asteroidesMapper)
         {
-            _logger = logger;
             _asteroidesService = asteroidesService;
             _asteroidesMapper = asteroidesMapper;
         }

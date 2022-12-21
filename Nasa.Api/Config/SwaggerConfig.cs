@@ -2,7 +2,6 @@
 {
     public static class SwaggerConfig
     {
-
         public static IServiceCollection AddRegistration(this IServiceCollection services) {
 
             var basepath = System.AppDomain.CurrentDomain.BaseDirectory;

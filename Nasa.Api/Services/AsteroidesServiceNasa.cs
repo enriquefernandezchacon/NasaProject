@@ -7,6 +7,11 @@ namespace Nasa.Api.Services
 {
     public class AsteroidesServiceNasa : IAsteroidesService
     {
+        private readonly IConfiguration _configuration;
+        public AsteroidesServiceNasa(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public async Task<IEnumerable<Asteroide>> GetAsteroides(int valorDia, int numeroAsteroides)
         {
             var clienteHttp = HttpClientFactory.Create();
@@ -39,7 +44,11 @@ namespace Nasa.Api.Services
         {
             DateTime hoy = DateTime.Now;
             DateTime fechaFutura = hoy.AddDays(dias);
-            return $"https://api.nasa.gov/neo/rest/v1/feed?start_date={hoy.ToString("yyyy-MM-dd")}&end_date={fechaFutura.ToString("yyyy-MM-dd")}&api_key=zdUP8ElJv1cehFM0rsZVSQN7uBVxlDnu4diHlLSb";
+            string url = _configuration.GetSection("NasaService").GetSection("url").Value;
+            //url += "?api_key=" + _configuration.GetSection("NasaService").GetSection("api-key").Value;
+            url += "?api_key=" + _configuration["NasaService:ApiKey"];
+            url += $"&start_date ={ hoy.ToString("yyyy-MM-dd")}&end_date={fechaFutura.ToString("yyyy-MM-dd")}";
+            return url;
         }
     }
 }
