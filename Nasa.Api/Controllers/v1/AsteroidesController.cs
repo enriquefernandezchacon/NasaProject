@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using Nasa.Api.Mapper;
 using Nasa.Api.Services;
 using Nasa.Data.Models;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 
 namespace Nasa.Api.Controllers.v1
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class AsteroidesController : ControllerBase
     {
         private readonly ILogger<AsteroidesController> _logger;
@@ -22,15 +25,22 @@ namespace Nasa.Api.Controllers.v1
 
         // POST: api/v1/Asteroides/asteroidesenelfuturo/3
         /// <summary>
-        /// Obtiene los 3 asteroides con mas peligro para la tierra desde hoy hasta la fecha indicada mediante los dias indicados
-        /// por parametro
+        /// Los 3 asteroides mas peligrosos
         /// </summary>
-        /// <param name="dias"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Devuelve los 3 asteroides con mas posibilidades de impacta en la tierra desde hoy hasta la fecha indicada mediante los dias indicados por parametro
+        /// </remarks>
+        /// <param name="dias">Cantidad de dias desde hoy hasta la fecha requerida. Mínimo 1, Máximo 7</param>
+        /// <returns>3 objetos de tipo PlanetaDto</returns>
+        /// <response code="200">Peticion correcta</response>
+        /// <response code="400">Atributo "dias" fuera de rango</response>
+        /// <response code="500">Error del servicio por parte de la Nasa</response>
         [HttpPost]
         [Route("asteroidesenelfuturo/{dias}")]
         [ProducesResponseType(typeof(List<AsteroideDto>), 200)]
-        public IActionResult Get(string dias)
+        [SwaggerResponse(statusCode: StatusCodes.Status400BadRequest, type: null, description: "dias fuera de rango")]
+        [SwaggerResponse(statusCode: StatusCodes.Status500InternalServerError, type: null, description: "nasa api service fuera de servicio")]
+        public IActionResult GetTresAsteroidesPeligrosos(string dias)
         {
             int valorDia;
 

@@ -1,3 +1,4 @@
+using Nasa.Api.Config;
 using Nasa.Api.Mapper;
 using Nasa.Api.Services;
 
@@ -8,19 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+//builder.Services.AddSwaggerGen();
+SwaggerConfig.AddRegistration(builder.Services);
 builder.Services.AddScoped<IAsteroidesService, AsteroidesServiceNasa>();
 builder.Services.AddScoped<IAsteroidesMapper, AsteroidesMapper>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
+
+SwaggerConfig.AddRegistration(app);
 
 app.UseHttpsRedirection();
 
