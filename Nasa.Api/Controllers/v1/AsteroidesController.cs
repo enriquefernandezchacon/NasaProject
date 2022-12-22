@@ -8,11 +8,10 @@ using System.Net;
 namespace Nasa.Api.Controllers.v1
 {
     /*
-     * BUGFIX Arreglar unidades en velocidad y diametro, no coge la coma de los decimales
-     * TODO Implementar appsettings para guardar la APIKEY
+     * TODO: Refactorizar servicio con SELECTMANY
      */
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/asteroides")]
     [Produces("application/json")]
     public class AsteroidesController : ControllerBase
     {

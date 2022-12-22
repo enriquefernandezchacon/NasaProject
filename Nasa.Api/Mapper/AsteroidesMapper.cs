@@ -1,4 +1,5 @@
 ﻿using Nasa.Data.Models;
+using System.Globalization;
 
 namespace Nasa.Api.Mapper
 {
@@ -10,7 +11,7 @@ namespace Nasa.Api.Mapper
             {
                 Nombre = asteroide.Name,
                 Diametro = (asteroide.EstimatedDiameter.Meters.EstimatedDiameterMin + asteroide.EstimatedDiameter.Meters.EstimatedDiameterMax) / 2,
-                Velocidad = Double.Parse(asteroide.CloseApproachData.FirstOrDefault().RelativeVelocity.KilometersPerHour),
+                Velocidad = Double.Parse(asteroide.CloseApproachData.FirstOrDefault().RelativeVelocity.KilometersPerHour, CultureInfo.InvariantCulture),
                 FechaAproximacion = asteroide.CloseApproachData.FirstOrDefault().CloseApproachDate,
                 Planeta =  asteroide.CloseApproachData.FirstOrDefault().OrbitingBody
             };
