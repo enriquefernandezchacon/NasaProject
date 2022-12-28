@@ -14,28 +14,17 @@ namespace Nasa.Api.Services
         }
         public async Task<IEnumerable<Asteroide>> GetAsteroides(int valorDia, int numeroAsteroides)
         {
-            var clienteHttp = HttpClientFactory.Create();
-            var respuesta = await clienteHttp.GetAsync(GetUrl(valorDia));
+            var respuesta = await HttpClientFactory.Create().GetAsync(GetUrl(valorDia));
+            
             if (respuesta.IsSuccessStatusCode)
             {
-                List<Asteroide> listaPlanetas = new();
-                var contenido = await respuesta.Content.ReadAsStringAsync();
-                var json = JObject.Parse(contenido);
-                var dias = json.GetValue("near_earth_objects");
+                var json = await respuesta.Content.ReadAsStringAsync();
 
-                foreach (var planetas in dias.Children())
-                {
-                    foreach (var planeta in planetas.ElementAt(0))
-                    {
-                        var planetaObject = JsonConvert.DeserializeObject<Asteroide>(planeta.ToString());
-                        listaPlanetas.Add(planetaObject);
-                    }
-                }
+                var listaPlanetas = JObject.Parse(json).GetValue("near_earth_objects").SelectMany(x => x.SelectMany(y => y)).Select(planeta => JsonConvert.DeserializeObject<Asteroide>(planeta.ToString()));
 
-                var listaPlanetasPeligrosos = listaPlanetas.Select(p => p).Where(p => p.IsPotentiallyHazardousAsteroid)
+                return listaPlanetas.Select(p => p).Where(p => p.IsPotentiallyHazardousAsteroid)
                     .OrderByDescending(p => (p.EstimatedDiameter.Kilometers.EstimatedDiameterMin + p.EstimatedDiameter.Kilometers.EstimatedDiameterMax) / 2)
                     .Take(3);
-                return listaPlanetasPeligrosos.ToList();
             }
             return null;
         }
@@ -45,9 +34,8 @@ namespace Nasa.Api.Services
             DateTime hoy = DateTime.Now;
             DateTime fechaFutura = hoy.AddDays(dias);
             string url = _configuration.GetSection("NasaService").GetSection("url").Value;
-            //url += "?api_key=" + _configuration.GetSection("NasaService").GetSection("api-key").Value;
             url += "?api_key=" + _configuration["NasaService:ApiKey"];
-            url += $"&start_date ={ hoy.ToString("yyyy-MM-dd")}&end_date={fechaFutura.ToString("yyyy-MM-dd")}";
+            url += $"&start_date ={hoy.ToString("yyyy-MM-dd")}&end_date={fechaFutura.ToString("yyyy-MM-dd")}";
             return url;
         }
     }
